@@ -1,6 +1,6 @@
 const Blog = () => {
 	return (
-		<div>
+		<div className="text-center">
 			<h1>Blog</h1>
 		</div>
 	);
