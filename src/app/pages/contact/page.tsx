@@ -1,4 +1,4 @@
-export const Contact = () => {
+const Contact = () => {
 	return (
 		<div>
 			<div className="p-8 max-w-md mx-auto bg-gray-100 rounded-lg shadow-md">
@@ -71,3 +71,5 @@ export const Contact = () => {
 		</div>
 	);
 };
+
+export default Contact;

@@ -1,8 +1,8 @@
 "use client";
 
-import { Header } from "../components/Header";
+import { Header } from "../../components/Header";
 
-export const PostWork = () => {
+const PostWork = () => {
 	const HandleUploadPhoto = () => {};
 
 	return (
@@ -30,3 +30,5 @@ export const PostWork = () => {
 		</div>
 	);
 };
+
+export default PostWork;

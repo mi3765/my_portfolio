@@ -9,13 +9,13 @@ export const Header = () => {
 					<Link href="/">Home</Link>
 				</li>
 				<li>
-					<Link href="/About">About</Link>
+					<Link href="app/About">About</Link>
 				</li>
 				<li>
-					<Link href="/Work">Work</Link>
+					<Link href="app/Work">Work</Link>
 				</li>
 				<li>
-					<Link href="/Blog">Blog</Link>
+					<Link href="app/Blog">Blog</Link>
 				</li>
 			</ul>
 		</div>

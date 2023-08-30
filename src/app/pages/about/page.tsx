@@ -1,4 +1,4 @@
-export const About = () => {
+const About = () => {
 	return (
 		<div className="flex flex-col">
 			<h1 className="text-center">About</h1>
@@ -28,3 +28,5 @@ export const About = () => {
 		</div>
 	);
 };
+
+export default About;
