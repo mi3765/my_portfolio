@@ -1,9 +1,12 @@
-const Home = () => {
-  return (
-    <div>
-      <h1>Home</h1>
-    </div>
-  )
-}
+import React from "react";
+import { Index } from "./pages/Index";
 
-export default Home
+const Home = () => {
+	return (
+		<div>
+			<Index />
+		</div>
+	);
+};
+
+export default Home;
