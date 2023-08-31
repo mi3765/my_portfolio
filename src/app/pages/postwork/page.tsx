@@ -1,9 +1,11 @@
 "use client";
-
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Header } from "../../components/Header";
 
 const PostWork = () => {
-	const HandleUploadPhoto = () => {};
+	const HandleUploadPhoto = () => {
+		alert("hello");
+	};
 
 	return (
 		<div className="text-center">
@@ -11,21 +13,78 @@ const PostWork = () => {
 			{/* TODO: 投稿画面は管理者しか行けない */}
 			{/* TODO: ボタン風にアレンジ */}
 
-			<div className="flex justify-center" onClick={HandleUploadPhoto}>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					strokeWidth={1.5}
-					stroke="currentColor"
-					className="w-10 h-10 text-orange-300"
-				>
-					<path
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+			<div className="flex flex-col items-center">
+				<div className="flex items-center gap-5 m-5">
+					<label htmlFor="name" className="block text-gray-700 font-medium">
+						作品名
+					</label>
+					<input
+						type="text"
+						id="name"
+						name="name"
+						className="mt-1 p-1 max-w-lg border rounded-md focus:ring focus:ring-blue-200"
+						required
 					/>
-				</svg>
+				</div>
+				<div className="flex items-center gap-5 m-5">
+					<h1>画像</h1>
+					<div>
+						<AddPhotoAlternateIcon
+							style={{ fontSize: "3rem" }}
+							onClick={HandleUploadPhoto}
+							className='bg-gray-300 p-2 m-2 rounded-lg cursor-pointer"'
+						/>
+					</div>
+				</div>
+				<img
+					src="/wave-photo.avif"
+					alt="wave-photo"
+					className="max-w-sm max-h-full"
+				/>
+				<div className="flex items-center gap-5 m-5">
+					<label htmlFor="name" className="block text-gray-700 font-medium">
+						作成期間
+					</label>
+					<input
+						type="text"
+						id="name"
+						name="name"
+						className="mt-1 p-1 max-w-lg border rounded-md focus:ring focus:ring-blue-200"
+						required
+					/>
+				</div>
+				<div className="flex items-center gap-5 m-5">
+					<label htmlFor="name" className="block text-gray-700 font-medium">
+						URL
+					</label>
+					<input
+						type="text"
+						id="name"
+						name="name"
+						className="mt-1 p-1 max-w-lg border rounded-md focus:ring focus:ring-blue-200"
+						required
+					/>
+				</div>
+				<div className="flex items-center gap-5 m-5">
+					<label htmlFor="message" className="block text-gray-700 font-medium">
+						概要
+					</label>
+					<textarea
+						id="message"
+						name="message"
+						className="mt-1 p-2 w-full border rounded-md focus:ring focus:ring-blue-200"
+						rows="4"
+						required
+					></textarea>
+				</div>
+				<div className="mt-4">
+					<button
+						type="submit"
+						className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
+					>
+						投稿
+					</button>
+				</div>
 			</div>
 		</div>
 	);
