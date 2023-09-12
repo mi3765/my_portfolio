@@ -2,9 +2,20 @@
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Header } from "../../components/Header";
 
-const PostWork = () => {
-	const HandleUploadPhoto = () => {
-		alert("hello");
+const PostWork: React.FC = () => {
+	const handleUploadPhoto = () => {
+		const fileInput = document.createElement("input");
+		fileInput.type = "file";
+		fileInput.accept = "image/*";
+		fileInput.click();
+
+		fileInput.addEventListener("change", (event) => {
+			const selectedFile = event.target.files?.[0];
+			if (selectedFile) {
+				// 選択されたファイルを処理する（アップロード、プレビューなど）
+				console.log("選択されたファイル:", selectedFile);
+			}
+		});
 	};
 
 	return (
@@ -31,7 +42,7 @@ const PostWork = () => {
 					<div>
 						<AddPhotoAlternateIcon
 							style={{ fontSize: "3rem" }}
-							onClick={HandleUploadPhoto}
+							onClick={handleUploadPhoto}
 							className='bg-gray-300 p-2 m-2 rounded-lg cursor-pointer"'
 						/>
 					</div>
