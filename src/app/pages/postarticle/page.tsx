@@ -18,12 +18,15 @@ const PostArticle: React.FC = () => {
 		fileInput.click();
 
 		fileInput.addEventListener("change", (e) => {
+			// TODO: objectの型付け
 			const files = e.target.files;
+			console.log(files);
 
 			if (files) {
 				// 最大4枚まで選択できるように制限する
 				const selectedFilesArray = Array.from(files).slice(0, 4);
 				setSelectedFiles(selectedFilesArray);
+				console.log(selectedFilesArray);
 
 				// 選択された画像をプレビュー表示
 				const previews = selectedFilesArray.map((file) =>
@@ -32,6 +35,8 @@ const PostArticle: React.FC = () => {
 
 				// 既存のプレビュー画像に新しいプレビュー画像を追加
 				setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);
+
+				console.log(previews);
 			}
 		});
 	};
@@ -55,7 +60,6 @@ const PostArticle: React.FC = () => {
 
 	return (
 		<div className="text-center">
-			{/* TODO: Headerコンポーネントの実装が必要 */}
 			<Header />
 			<div className="flex flex-col items-center">
 				<div className="flex items-center gap-5 m-5">
@@ -111,6 +115,7 @@ const PostArticle: React.FC = () => {
 					<button
 						type="submit"
 						className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
+						onClick={postArticle}
 					>
 						投稿
 					</button>

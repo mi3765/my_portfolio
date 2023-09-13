@@ -20,6 +20,7 @@ const PostWork: React.FC = () => {
 		fileInput.click();
 
 		fileInput.addEventListener("change", (e) => {
+			// TODO: objectの型付け
 			const files = e.target.files;
 
 			if (files) {
@@ -51,7 +52,7 @@ const PostWork: React.FC = () => {
 				workData.append(`file${index}`, file);
 			});
 
-			const response = await axios.post("api/postwork", workData);
+			const response = await axios.post("postwork", workData);
 			console.log("サーバーレスポンス:", response.data);
 		} catch (error) {
 			console.error("エラー:", error);
