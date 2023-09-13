@@ -19,8 +19,8 @@ const PostWork: React.FC = () => {
 		fileInput.multiple = true; // 複数のファイルを選択できるようにする
 		fileInput.click();
 
-		fileInput.addEventListener("change", (event) => {
-			const files = event.target.files;
+		fileInput.addEventListener("change", (e) => {
+			const files = e.target.files;
 
 			if (files) {
 				// 最大4枚まで選択できるように制限する
@@ -40,18 +40,18 @@ const PostWork: React.FC = () => {
 
 	const postWork = async () => {
 		try {
-			const formData = new FormData();
-			formData.append("title", title);
-			formData.append("period", period);
-			formData.append("url", url);
-			formData.append("message", message);
+			const workData = new FormData();
+			workData.append("title", title);
+			workData.append("period", period);
+			workData.append("url", url);
+			workData.append("message", message);
 
 			// 選択されたすべての画像をFormDataに追加
 			selectedFiles.forEach((file, index) => {
-				formData.append(`file${index}`, file);
+				workData.append(`file${index}`, file);
 			});
 
-			const response = await axios.post("api/postwork", formData);
+			const response = await axios.post("api/postwork", workData);
 			console.log("サーバーレスポンス:", response.data);
 		} catch (error) {
 			console.error("エラー:", error);
@@ -133,7 +133,7 @@ const PostWork: React.FC = () => {
 						id="message"
 						name="message"
 						className="mt-1 p-2 w-full border rounded-md focus:ring focus:ring-blue-200"
-						rows="4"
+						rows={4}
 						required
 						value={message}
 						onChange={(e) => setMessage(e.target.value)}
