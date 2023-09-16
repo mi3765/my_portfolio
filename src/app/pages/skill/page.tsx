@@ -1,6 +1,8 @@
+import { Header } from "@/app/components/Header";
 const Skill = () => {
 	return (
 		<div className="text-center">
+			<Header />
 			<p>資格: ITパスポート、基本情報技術者</p>
 			<p>技術スキル: Next.js、TypeScript、TailwindCSS、Go、MySQL、C++</p>
 			<p>Email: airever3985@gmail.com</p>

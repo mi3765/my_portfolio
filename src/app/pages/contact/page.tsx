@@ -1,6 +1,8 @@
+import { Header } from "@/app/components/Header";
 const Contact = () => {
 	return (
 		<div>
+			<Header />
 			<div className="p-8 max-w-md mx-auto bg-gray-100 rounded-lg shadow-md">
 				<h2 className="text-2xl font-semibold mb-4">お問い合わせフォーム</h2>
 				<form action="#" method="post">
@@ -54,7 +56,7 @@ const Contact = () => {
 							id="message"
 							name="message"
 							className="mt-1 p-2 w-full border rounded-md focus:ring focus:ring-blue-200"
-							rows="4"
+							rows={4}
 							required
 						></textarea>
 					</div>

@@ -51,7 +51,7 @@ const PostArticle: React.FC = () => {
 				articleData.append(`file${index}`, file);
 			});
 
-			const response = await axios.post("api/postarticle", articleData);
+			const response = await axios.post("postarticle", articleData);
 			console.log("サーバーレスポンス", response.data);
 		} catch (error) {
 			console.log("エラー", error);
@@ -108,7 +108,7 @@ const PostArticle: React.FC = () => {
 						rows={4}
 						required
 						onChange={(e) => setMessage(e.target.value)}
-						value={title}
+						value={message}
 					></textarea>
 				</div>
 				<div className="mt-4">
