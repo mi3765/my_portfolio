@@ -1,4 +1,4 @@
-module github.com/mi3765/my_portfolio
+module github.com/mi3765/my_portfolio/server
 
 go 1.21.0
 
