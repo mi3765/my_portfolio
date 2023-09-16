@@ -3,13 +3,14 @@ package main
 import (
 	"os"
 
-	"github.com/aws-sdk-go/aws"
+	"github.com/mi3765/my_portfolio/server/pkg/handlers"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
-	"github.com/mi3765/my_portfolio/pkg/handlers"
 )
 
 var (
@@ -19,7 +20,7 @@ var (
 func main() {
 	region := os.Getenv("AWS_REGION")
 	awsSession, err := session.NewSession(&aws.Config{
-		Resgion: aws.String(region)})
+		Region: aws.String(region)})
 	if err != nil {
 		return
 	}
