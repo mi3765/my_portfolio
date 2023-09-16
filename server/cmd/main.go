@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
-	"github.com/mi3765/my-portfolio/pkg/handlers"
+	"github.com/mi3765/my_portfolio/pkg/handlers"
 )
 
 var (
