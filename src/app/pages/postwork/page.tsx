@@ -19,17 +19,17 @@ const PostWork: React.FC = () => {
 		fileInput.multiple = true; // 複数のファイルを選択できるようにする
 		fileInput.click();
 
-		fileInput.addEventListener("change", (e) => {
-			// TODO: objectの型付け
+		fileInput.addEventListener("change", (e: any) => {
+			// TODO: objectの型付け any修正
 			const files = e.target.files;
 
 			if (files) {
 				// 最大4枚まで選択できるように制限する
-				const selectedFilesArray = Array.from(files).slice(0, 4);
+				const selectedFilesArray: any = Array.from(files).slice(0, 4);
 				setSelectedFiles(selectedFilesArray);
 
 				// 選択された画像をプレビュー表示
-				const previews = selectedFilesArray.map((file) =>
+				const previews = selectedFilesArray.map((file: any) =>
 					URL.createObjectURL(file)
 				);
 

@@ -17,26 +17,27 @@ const PostArticle: React.FC = () => {
 		fileInput.multiple = true; // 複数のファイルを選択できるようにする
 		fileInput.click();
 
-		fileInput.addEventListener("change", (e) => {
-			// TODO: objectの型付け
-			const files = e.target.files;
-			console.log(files);
+		fileInput.addEventListener("change", (e: any) => {
+			if (e.currentTarget) {
+				const files = e.target.files;
+				console.log(e.target.files);
 
-			if (files) {
-				// 最大4枚まで選択できるように制限する
-				const selectedFilesArray = Array.from(files).slice(0, 4);
-				setSelectedFiles(selectedFilesArray);
-				console.log(selectedFilesArray);
+				if (files) {
+					// 最大4枚まで選択できるように制限する
+					const selectedFilesArray: any = Array.from(files).slice(0, 4);
+					setSelectedFiles(selectedFilesArray);
+					console.log(selectedFilesArray);
 
-				// 選択された画像をプレビュー表示
-				const previews = selectedFilesArray.map((file) =>
-					URL.createObjectURL(file)
-				);
+					// 選択された画像をプレビュー表示
+					const previews = selectedFilesArray.map((file: any) =>
+						URL.createObjectURL(file)
+					);
 
-				// 既存のプレビュー画像に新しいプレビュー画像を追加
-				setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);
+					// 既存のプレビュー画像に新しいプレビュー画像を追加
+					setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);
 
-				console.log(previews);
+					console.log(previews);
+				}
 			}
 		});
 	};
@@ -51,7 +52,8 @@ const PostArticle: React.FC = () => {
 				articleData.append(`file${index}`, file);
 			});
 
-			const response = await axios.post("postarticle", articleData);
+			// GoバックエンドサーバーのエンドポイントにPOSTリクエストを送信
+			const response = await axios.post("/api/postArticle", articleData);
 			console.log("サーバーレスポンス", response.data);
 		} catch (error) {
 			console.log("エラー", error);
@@ -114,7 +116,7 @@ const PostArticle: React.FC = () => {
 				<div className="mt-4">
 					<button
 						type="submit"
-						className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
+						className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200 cursor-pointer"
 						onClick={postArticle}
 					>
 						投稿
