@@ -8,6 +8,7 @@ import (
 	"github.com/mi3765/server/database" // データベース操作のパッケージをインポート
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 )
 
 type PostWork struct {
@@ -111,4 +112,8 @@ func DeletePostWorkHandler(request events.APIGatewayProxyRequest) (events.APIGat
 		StatusCode: http.StatusOK,
 		Body:       "Work deleted successfully",
 	}, nil
+}
+
+func main() {
+	lambda.Start(CreatePostWorkHandler)
 }
