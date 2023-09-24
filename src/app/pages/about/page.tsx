@@ -1,36 +1,80 @@
-import Image from "next/image";
 import { Header } from "@/app/components/Header";
 
 const About = () => {
+	const containerItem = {
+		width: "600px",
+		height: "400px",
+		background: "lightblue",
+		border: "1px solid",
+	};
+
 	return (
 		<div>
 			<Header />
-			<div className="flex flex-col items-center">
-				<h1 className="text-center text-6xl">About</h1>
-				<div className="flex my-8 mx-auto max-w-screen-lg">
-					<div className="flex-1 flex justify-center items-center">
-						<div className="rounded-3xl overflow-hidden">
-							<Image
+			<div className="">
+				<h1 className="text-center text-6xl mb-5">About</h1>
+				<div className="flex overflow-x-scroll">
+					<div className="flex border-dotted items-center relative left-1/4">
+						<div className="flex" style={containerItem}>
+							<img
 								src="/my-photo.png"
-								width={300}
-								height={200}
-								alt="my-photo"
+								alt=""
+								className="object-contain max-w-full max-h-full"
 							/>
+							<div className="flex flex-col">
+								<h2>氏名</h2>
+								<p>水野慧亞</p>
+								<h2>Email</h2>
+								<p>airever3985@gmail.com</p>
+							</div>
 						</div>
-					</div>
-					<div className="flex-1 p-8">
-						<div className="h-full">
-							{/* <h1>氏名: 水野慧亞</h1> */}
-							{/* <p>岐阜協立大学 経営学部 情報メディア学科 3年</p> */}
-							{/* <p>ソフトピア共同研究室</p> */}
-							<p>趣味: 麻雀、アニメ鑑賞</p>
+						<div style={containerItem}>
+							<h2>大学</h2>
+							<p>岐阜協立大学</p>
+							<h2>学部</h2>
+							<p>経営学部</p>
+							<h2>学科</h2>
+							<p>情報メディア学科</p>
 						</div>
-						<hr className="my-4" />
-						<div>
+						<div style={containerItem}>
+							<h2>趣味</h2>
+							<p>麻雀</p>
+							<p>睡眠</p>
+						</div>
+						<div style={containerItem}>
+							<h2>保有資格</h2>
+							<p>基本情報技術者</p>
+							<p>ITパスポート</p>
+							<h2>Skills</h2>
+							<div className="flex">
+								<div className="">
+									<h3>Frontend</h3>
+									<p>JavaScript</p>
+									<p>TypeScript</p>
+									<p>React</p>
+									<p>Next.js</p>
+									<p>HTML</p>
+									<p>CSS & SASS & Framework</p>
+								</div>
+								<div>
+									<h3>Backend</h3>
+									<p>Golang</p>
+									<p>Firebase</p>
+									<p>lambda & APIGateway & DynamoDB</p>
+									<p>MySQL</p>
+								</div>
+							</div>
 							<p>
-								9月の東京でのハッカソンに向けて、フロントエンド開発技術力の向上と、10月の応用情報に向けての勉強をしています。
+								<a href="https://github.com/mi3765">
+									Github: https://github.com/mi3765
+								</a>
 							</p>
-							<p>今年の目標: フルスタックでオリジナルアプリ開発とAtCoder入茶</p>
+						</div>
+						<div style={containerItem}>
+							<h2>今年の目標</h2>
+							<p>フルスタックのWebアプリ開発</p>
+							<p>AtCoder入茶</p>
+							<p>応用情報合格</p>
 						</div>
 					</div>
 				</div>

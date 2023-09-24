@@ -1,11 +1,12 @@
-export const WorkCard = () => {
+import React from "react";
+
+interface WorkCardProps {
+	style: React.CSSProperties;
+}
+
+export const WorkCard: React.FC<WorkCardProps> = ({ style }) => {
 	return (
-		<div
-			className="w-full sm:w-1/2 md:w-1/2 
-				lg:w-1/3 xl:w-1/3 my-2 p-4 rounded-lg
-				bg-gray-100 mx-auto max-w-xs sm:max-w-sm
-				md:max-w-md lg:max-w-lg xl:max-w-lg"
-		>
+		<div className="rounded-lg bg-gray-100 p-5 m-5" style={style}>
 			<ul>
 				<li>
 					<h2 className="text-lg font-semibold mb-2">作品名1</h2>

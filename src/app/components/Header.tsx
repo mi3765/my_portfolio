@@ -32,11 +32,6 @@ export const Header = () => {
 					</a>
 				</li>
 				<li>
-					<a href="/skill" onClick={(e) => handleClickRoute(e, "/pages/skill")}>
-						Skill
-					</a>
-				</li>
-				<li>
 					<a href="/blog" onClick={(e) => handleClickRoute(e, "/pages/blog")}>
 						Blog
 					</a>

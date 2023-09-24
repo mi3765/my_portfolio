@@ -12,11 +12,27 @@ import (
 func main() {
 	database.InitDynamoDB()
 
-	lambda.Start(handlers.userHandler)
-	lambda.Start(handlers.CreatePostWorkHandler)
-	lambda.Start(handlers.CreatePostArticleHandler)
+	// HTTPサーバーのルーティング
+	http.HandleFunc("/api/createuser", handlers.CreateUserHandler)
+	http.HandleFunc("/api/getuser", handlers.GetUserHandler)
+	http.HandleFunc("/api/updateuser", handlers.UpdateUserHandler)
+	http.HandleFunc("/api/deleteuser", handlers.DeleteUserHandler)
 
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		panic(err)
-	}
+	http.HandleFunc("/api/createpostwork", handlers.CreatePostWorkHandler)
+	http.HandleFunc("/api/getpostwork", handlers.GetPostWorkHandler)
+	http.HandleFunc("/api/updatepostwork", handlers.UpdatePostWorkHandler)
+	http.HandleFunc("/api/deletepostwork", handlers.DeletePostWorkHandler)
+
+	http.HandleFunc("/api/createpostarticle", handlers.CreatePostArticleHandler)
+	http.HandleFunc("/api/getpostarticle", handlers.GetPostArticleHandler)
+	http.HandleFunc("/api/updatepostarticle", handlers.UpdatePostArticleHandler)
+	http.HandleFunc("/api/deletepostarticle", handlers.DeletePostArticleHandler)
+
+	// Lambda関数を起動
+	lambda.Start(lambdaHandler)
+}
+
+// Lambdaハンドラー
+func lambdaHandler() {
+	// Lambda関数の処理
 }

@@ -32,3 +32,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Go memo
+
+NEXT.js --> axios POST --> Go handler --> dynamoDB Create
+
+NEXT.js --> axios GET --> Go handler --> dynamoDB Read
+
+NEXT.js --> axios Update --> Go handler --> dynamoDB Update
+
+NEXT.js --> axios Delete --> Go handler --> dynamoDB Delete

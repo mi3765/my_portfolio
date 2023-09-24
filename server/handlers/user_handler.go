@@ -2,7 +2,11 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+
+	"github.com/aws/aws-lambda-go/events"
+	"github.com/mi3765/my_portfolio/server/database"
 )
 
 type User struct {
@@ -12,55 +16,93 @@ type User struct {
 	Password string `json:"password"`
 }
 
-func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
+func CreateUserHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	var user database.User
+	err := json.Unmarshal([]byte(request.Body), &user)
+	if err != nil {
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusRequest,
+			Body:       "Invalid request data",
+		}, nil
+	}
 
+	err = database.CreateUser(user)
+	if err != nil {
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       fmt.Sprintf("Failed to create user: %s¥n", err.Error()),
+		}, nil
+	}
+
+	return events.APIGatewayProxyResponse{
+		StatusCode: http.StatusCreated,
+		Body:       "User created successfully",
+	}, nil
 }
 
-// GetUserHandlerはユーザー情報を取得するハンドラです。
-func GetUserHandler(w http.ResponseWriter, r *http.Request) {
-	// ユーザーIDを取得
-	userID := r.URL.Query().Get("user_id")
+func GetUserHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	userID := request.PathParameters["user_id"]
 
-	// ユーザー情報をデータベースから取得するロジックを実行
-	// ここではダミーデータを返す例を示します
-	user := User{
-		UserID:   1,
-		UserName: "example_user",
-		Email:    "user@example.com",
-		Password: "hashed_password",
+	user, err := database.GetUser(userID)
+	if err != nil {
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       fmt.Sprintf("Failed to fetch user: %s¥n", err.Error()),
+		}, nil
 	}
 
-	// ユーザー情報をJSONにエンコードしてレスポンスに書き込む
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(user); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	responseBody, err := json.Marshal(user)
+	if err != nil {
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       fmt.Sprintf("Failed to marshal reponse: %s¥n", err.Error()),
+		}, nil
 	}
+
+	return events.APIGatewayProxyResponse{
+		StatusCode: http.StatusOK,
+		Body:       string(responseBody),
+	}, nil
 }
 
-// UpdateUserHandlerはユーザー情報を更新するハンドラです。
-func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
-	// リクエストボディからユーザー情報をデコード
-	var updatedUser User
-	if err := json.NewDecoder(r.Body).Decode(&updatedUser); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+func UpdateUserHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	userID := request.PathParameters["user_id"]
+	var updatedUser database.User
+	err := json.Unmarshal([]byte(request.Body), &updatedUser)
+	if err != nil {
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       "invalid request body",
+		}, nil
 	}
 
-	// ユーザー情報をデータベースに更新するロジックを実行
-	// ここではダミーデータを更新したと仮定します
-
-	// 更新が成功した場合、成功メッセージを返す
-	successMessage := "ユーザー情報が更新されました"
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(successMessage); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	err = database.UpdateUser(userID, updatedUser)
+	if err != nil {
+		return events.APIGaetwayProxyResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       fmt.Sprintf("failed to update user: %s¥n", err.Error()),
+		}, nil
 	}
+
+	return events.APIGatewayProxtResponse{
+		StatusCode: http.StatusOK,
+		Body:       "User updated successfully",
+	}, nil
 }
 
-// 他のユーザーハンドラ機能を追加できます
+func DeleteUserHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	userID := request.Parameters["user_id"]
 
-func DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
+	err := database.DeleteUser(userID)
+	if err != nil {
+		return events.APIGatewayProxtResponse{
+			StatusCode: http.StatusInternalServerError,
+			Body:       fmt.Sprintf("Failed to delete user: %s¥n", err.Error()),
+		}, nil
+	}
 
+	return events.APIGatewayProxyResponse{
+		StatusCode: http.StatusOK,
+		Body:       "User deleted successfully",
+	}, nil
 }

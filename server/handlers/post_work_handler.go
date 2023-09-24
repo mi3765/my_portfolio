@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/mi3765/server/database" // データベース操作のパッケージをインポート
+	"github.com/mi3765/my_portfolio/server/database" // データベース操作のパッケージをインポート
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
 )
 
 type PostWork struct {
@@ -52,7 +51,7 @@ func GetPostWorkHandler(request events.APIGatewayProxyRequest) (events.APIGatewa
 	postWork, err := database.GetPostWork(workID)
 	if err != nil {
 		return events.APIGatewayProxyResponse{
-			StatusCode: httpStatusInternalServerError,
+			StatusCode: http.StatusInternalServerError,
 			Body:       fmt.Sprintf("Failed to fetch work: %s¥n", err.Error()),
 		}, nil
 	}
@@ -112,8 +111,4 @@ func DeletePostWorkHandler(request events.APIGatewayProxyRequest) (events.APIGat
 		StatusCode: http.StatusOK,
 		Body:       "Work deleted successfully",
 	}, nil
-}
-
-func main() {
-	lambda.Start(CreatePostWorkHandler)
 }
