@@ -1,5 +1,3 @@
-import { Header } from "@/app/components/Header";
-
 const About = () => {
 	const containerItem = {
 		width: "600px",
@@ -10,9 +8,7 @@ const About = () => {
 
 	return (
 		<div>
-			<Header />
 			<div className="">
-				<h1 className="text-center text-6xl mb-5">About</h1>
 				<div className="flex overflow-x-scroll">
 					<div className="flex border-dotted items-center relative left-1/4">
 						<div className="flex" style={containerItem}>
