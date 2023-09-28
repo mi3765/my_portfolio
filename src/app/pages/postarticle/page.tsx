@@ -42,22 +42,25 @@ const PostArticle: React.FC = () => {
 		});
 	};
 
-	const postArticle = async () => {
-		try {
-			const articleData = new FormData();
-			articleData.append("title", title);
-			articleData.append("message", message);
+	const baseURL = "http://localhost:3000/pages/postarticle";
 
-			selectedFiles.forEach((file, index) => {
-				articleData.append(`file${index}`, file);
+	const postArticle = () => {
+		// リクエストデータをオブジェクトとして作成
+		const requestData = {
+			title: title,
+			message: message,
+			files: selectedFiles, // ファイルの配列を追加
+		};
+
+		// POSTリクエストを送信
+		axios
+			.post(baseURL, requestData)
+			.then((response) => {
+				console.log("サーバーレスポンス", response.data);
+			})
+			.catch((error) => {
+				console.error("エラー", error);
 			});
-
-			// GoバックエンドサーバーのエンドポイントにPOSTリクエストを送信
-			const response = await axios.post("/api/postArticle", articleData);
-			console.log("サーバーレスポンス", response.data);
-		} catch (error) {
-			console.log("エラー", error);
-		}
 	};
 
 	return (

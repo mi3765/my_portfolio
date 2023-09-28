@@ -20,6 +20,46 @@ type PostArticle struct {
 	PostDate       string   `json:"post_date"`
 }
 
+func main() {
+	http.HandleFunc("/pages/postarticle", FrontToBackPostArtcile)
+	http.ListenAndServe(":3000", nil)
+}
+
+func FrontToBackPostArtcile(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		// フォームデータの解析
+		err := r.ParseMultipartForm(10 << 20) // 最大10MBのデータを許容
+		if err != nil {
+			http.Error(w, "フォームデータの解析に失敗しました", http.StatusBadRequest)
+			return
+		}
+
+		title := r.FormValue("title")
+		message := r.FormValue("message")
+
+		// ファイルの取得
+		file, _, err := r.FormFile("file0") // "file0" はフォームデータのキー名
+		if err != nil {
+			http.Error(w, "ファイルの取得に失敗しました", http.StatusBadRequest)
+			return
+		}
+		defer file.Close()
+
+		// ここでフォームデータやファイルを処理するロジックを実装します
+		// 例えば、データベースへの保存やファイルの保存などを行うことができます
+
+		// サンプルとして、受け取ったデータをコンソールに出力します
+		fmt.Printf("Received Title: %s\n", title)
+		fmt.Printf("Received Message: %s\n", message)
+
+		// レスポンスの作成（成功時）
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("記事が投稿されました"))
+	} else {
+		http.Error(w, "POSTリクエストのみ受け付けます", http.StatusMethodNotAllowed)
+	}
+}
+
 func CreatePostArticleHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// リクエストデータを取得
 	var postArticle database.PostArticle

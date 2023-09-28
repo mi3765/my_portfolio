@@ -25,7 +25,9 @@ type PostWork struct {
 
 const region string = "ap-northeast-1"
 
-func dynamoPostWork() {
+var client *dynamodb.Client
+
+func init() {
 	var err error
 	var context = context.Background()
 
@@ -35,16 +37,17 @@ func dynamoPostWork() {
 		return
 	}
 
-	client := dynamodb.NewFormConfig(c)
+	client = dynamodb.NewFormConfig(c)
+}
 
-	// Create
+func CreatePostWork() {
 	putInputWork := PostWork{}
 
 	av, err := attributevalue.MarshalMap(putInputWork)
 	if err != nil {
 		fmt.Printf("dynamodb marshal: %s¥n", err.Error())
 	}
-	_, err = client.PutItem(context, &dynamodb.PutItemInput{
+	_, err = client.PutItem(context.TODO(), &dynamodb.PutItemInput{
 		TableName: aws.String("PostWork"),
 		Item:      av,
 	})
@@ -52,18 +55,19 @@ func dynamoPostWork() {
 		fmt.Printf("put item: %s¥n", err.Error())
 		return
 	}
+}
 
-	// Read
+func ReadPostWork() {
 	getInputWork := &dynamodb.GetItemInput{
 		TableName: aws.String("PostWork"),
 		Key: map[string]types.AttributeValue{
 			"WorkID": &types.AttributeValueIDS{
-				value: "",
+				value: "1",
 			},
 		},
 	}
 
-	output, err := client.GetItem(context, getInputWork)
+	output, err := client.GetItem(context.TODO(), getInputWork)
 	if err != nil {
 		fmt.Printf("get item: %s¥n", err.Error())
 		return
@@ -74,41 +78,46 @@ func dynamoPostWork() {
 		fmt.Printf("dynamodb unmarshal: %s¥n", err.Error())
 		return
 	}
+}
 
-	// Update
-	update := expression.UpdateBuilder{}.Set()
+func UpdatePostWork() {
+	update := expression.UpdateBuilder{}.Set(
+		expression.Name("WorkTitle").Value("新しいタイトル"),
+		expression.Name("WorkMessage").Value("新しいメッセージ"),
+	)
 
-	expression, err := expression.NewBuilder().WithUpdate(update).Build()
+	expr, err := expression.NewBuilder().WithUpdate(update).Build()
 	if err != nil {
-		fmt.Printf("build update expression: %s¥n", err.Error())
+		fmt.Printf("build update expression: %s\n", err.Error())
 		return
 	}
 
 	updateInputWork := &dynamodb.UpdateItemInput{
-		TableName: aws.String("PostWork"),
-		Key: map[string]types.AttributeValue{
-			"WorkID": &types.AttributeValueIDS{
-				value: "",
-			},
-		},
-		// TODO: Update要素の記述
-	}
-	_, err = client.UpdateItem(context, updateInputWork)
-	if err != nil {
-		fmt.Printf("update item: %s¥n", err.Error())
-		return
+		TableName:                 aws.String("PostWork"),
+		Key:                       map[string]types.AttributeValue{"WorkID": &types.AttributeValueMemberS{Value: "1"}},
+		ExpressionAttributeNames:  expr.Names(),
+		ExpressionAttributeValues: expr.Values(),
+		UpdateExpression:          expr.Update(),
 	}
 
+	_, err = client.UpdateItem(context.TODO(), updateInputWork)
+	if err != nil {
+		fmt.Printf("update item: %s\n", err.Error())
+		return
+	}
+}
+
+func DeletePostWork() {
 	// Delete
 	deleteInputWork := &dynamodb.DeleteItemInput{
 		TableName: aws.String("PostWork"),
 		Key: map[string]types.AttributeValue{
 			"WorkID": &types.AttibuteValueIDS{
-				Value: "",
+				Value: "1",
 			},
 		},
 	}
-	_, err = client.DeleteItem(context, deleteInputWork)
+	_, err := client.DeleteItem(context.TODO(), deleteInputWork)
 	if err != nil {
 		fmt.Printf("delete item: %s¥n", err.Error())
 		return

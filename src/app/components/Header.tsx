@@ -14,7 +14,11 @@ export const Header = () => {
 
 	return (
 		<div className="flex justify-between mx-20 my-10">
-			<h1>My Portfolio</h1>
+			<h1>
+				<a href="/" onClick={(e) => handleClickRoute(e, "/")}>
+					My Portfolio
+				</a>
+			</h1>
 			<ul className="flex gap-10">
 				<li>
 					<a href="/" onClick={(e) => handleClickRoute(e, "/")}>

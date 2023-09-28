@@ -21,7 +21,9 @@ type User struct {
 
 const region string = "ap-northeast-1"
 
-func main() {
+var client *dynamodb.Client
+
+func init() {
 	var err error
 	var context = context.Background()
 
@@ -31,16 +33,17 @@ func main() {
 		return
 	}
 
-	client := dynamodb.NewFormConfig(c)
+	client = dynamodb.NewFormConfig(c)
+}
 
-	// Create
-	putInput := User{}
+func CreateUser() {
+	putInputUser := User{}
 
-	av, err := attributevalue.MarshalMap(putInput)
+	av, err := attributevalue.MarshalMap(putInputUser)
 	if err != nil {
 		fmt.Printf("dynamodb marshal: %s¥n", err.Error())
 	}
-	_, err = client.PutItem(context, &dynamodb.PutItemInput{
+	_, err = client.PutItem(context.TODO(), &dynamodb.PutItemInput{
 		TableName: aws.String("User"),
 		Item:      av,
 	})
@@ -48,9 +51,10 @@ func main() {
 		fmt.Printf("put item: %s¥n", err.Error())
 		return
 	}
+}
 
-	// Read
-	getInput := &dynamodb.GetItemInput{
+func ReadUser() {
+	getInputUser := &dynamodb.GetItemInput{
 		TableName: aws.String("User"),
 		Key: map[string]types.AttributeValue{
 			"UserID": &types.AttributeValueIDS{
@@ -59,7 +63,7 @@ func main() {
 		},
 	}
 
-	output, err := client.GetItem(context, getInput)
+	output, err := client.GetItem(context.TODO(), getInputUser)
 	if err != nil {
 		fmt.Printf("get item: %s¥n", err.Error())
 		return
@@ -70,41 +74,45 @@ func main() {
 		fmt.Printf("dynamodb unmarshal: %s¥n", err.Error())
 		return
 	}
-	fmt.Println(gotUser)
+}
 
-	// Update
-	update := expression.UpdateBuilder{}.Set()
+func UpdateUser() {
+	update := expression.UpdateBuilder{}.Set(
+		expression.Name("UserName").Value("新しいタイトル"),
+		expression.Name("UserID").Value("新しいメッセージ"),
+	)
 
-	expression, err := expression.NewBuilder().WithUpdate(update).Build()
+	expr, err := expression.NewBuilder().WithUpdate(update).Build()
 	if err != nil {
-		fmt.Printf("build update expression: %s¥n", err.Error())
-		return
-	}
-	updateInput := &dynamodb.UpdateItemInput{
-		TableName: aws.String("User"),
-		Key: map[string]types.AttributeValue{
-			"UserID": &types.AttributeValueIDS{
-				Value: "",
-			},
-		},
-		// TODO: Update要素記述
-	}
-	_, err = client.UpdateItem(context, updateInput)
-	if err != nil {
-		fmt.Printf("update item: %s¥n", err.Error())
+		fmt.Printf("build update expression: %s\n", err.Error())
 		return
 	}
 
-	// Delte
-	deleteInput := &dynamodb.DeleteItemInput{
+	updateInputUser := &dynamodb.UpdateItemInput{
+		TableName:                 aws.String("User"),
+		Key:                       map[string]types.AttributeValue{"UserD": &types.AttributeValueMemberS{Value: "1"}},
+		ExpressionAttributeNames:  expr.Names(),
+		ExpressionAttributeValues: expr.Values(),
+		UpdateExpression:          expr.Update(),
+	}
+
+	_, err = client.UpdateItem(context.TODO(), updateInputUser)
+	if err != nil {
+		fmt.Printf("update item: %s\n", err.Error())
+		return
+	}
+}
+
+func DeleteUser() {
+	deleteInputUser := &dynamodb.DeleteItemInput{
 		TableName: aws.String("User"),
 		Key: map[string]types.AttributeValue{
 			"UserID": &types.AttributeValueIDS{
-				Value: "",
+				Value: "1",
 			},
 		},
 	}
-	_, err = client.DeleteItem(context, deleteInput)
+	_, err := client.DeleteItem(context.TODO(), deleteInputUser)
 	if err != nil {
 		fmt.Printf("delete item: %s¥n", err.Error())
 		return

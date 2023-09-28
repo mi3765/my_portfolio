@@ -30,13 +30,13 @@ func init() {
 	var err error
 	var context = context.Background()
 
-	cfg, err := config.LoadDefaultConfig(context, config.WithRegion(region))
+	c, err := config.LoadDefaultConfig(context, config.WithRegion(region))
 	if err != nil {
 		fmt.Printf("load config: %s\n", err.Error())
 		return
 	}
 
-	client = dynamodb.NewFromConfig(cfg)
+	client = dynamodb.NewFromConfig(c)
 }
 
 func CreatePostArticle() {
@@ -61,7 +61,7 @@ func ReadPostArticle() {
 		TableName: aws.String("PostArticle"),
 		Key: map[string]types.AttributeValue{
 			"ArticleID": &types.AttributeValueMemberS{
-				Value: "1", // ArticleIDの値を指定
+				Value: "1",
 			},
 		},
 	}
@@ -111,7 +111,7 @@ func DeletePostArticle() {
 		TableName: aws.String("PostArticle"),
 		Key: map[string]types.AttributeValue{
 			"ArticleID": &types.AttributeValueMemberS{
-				Value: "1", // 削除するArticleIDの値を指定
+				Value: "1",
 			},
 		},
 	}
