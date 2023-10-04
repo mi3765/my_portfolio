@@ -10,6 +10,8 @@ const PostArticle: React.FC = () => {
 	const [title, setTitle] = useState("");
 	const [message, setMessage] = useState("");
 
+	var fileArray: File[] = [];
+
 	const handleUploadPhoto = () => {
 		const fileInput = document.createElement("input");
 		fileInput.type = "file";
@@ -28,6 +30,10 @@ const PostArticle: React.FC = () => {
 					setSelectedFiles(selectedFilesArray);
 					console.log(selectedFilesArray);
 
+					selectedFiles.map((file) => {
+						fileArray.push(file);
+					});
+
 					// 選択された画像をプレビュー表示
 					const previews = selectedFilesArray.map((file: any) =>
 						URL.createObjectURL(file)
@@ -42,21 +48,23 @@ const PostArticle: React.FC = () => {
 		});
 	};
 
+	// TODO: axiosの画像ファイルの複数送信
+
 	const baseURL = "http://localhost:3000/pages/postarticle";
 
 	const postArticle = () => {
-		// リクエストデータをオブジェクトとして作成
 		const requestData = {
 			title: title,
 			message: message,
-			files: selectedFiles, // ファイルの配列を追加
+			files: fileArray,
 		};
 
 		// POSTリクエストを送信
 		axios
 			.post(baseURL, requestData)
 			.then((response) => {
-				console.log("サーバーレスポンス", response.data);
+				console.log("サーバーレスポンス", requestData);
+				console.log(response);
 			})
 			.catch((error) => {
 				console.error("エラー", error);

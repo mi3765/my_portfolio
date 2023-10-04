@@ -39,24 +39,24 @@ const PostWork: React.FC = () => {
 		});
 	};
 
+	const baseURL = "http://localhost:3000/pages/postwork";
+
 	const postWork = async () => {
-		try {
-			const workData = new FormData();
-			workData.append("title", title);
-			workData.append("period", period);
-			workData.append("url", url);
-			workData.append("message", message);
+		const requestData = {
+			title: title,
+			period: period,
+			url: url,
+			files: selectedFiles,
+		};
 
-			// 選択されたすべての画像をFormDataに追加
-			selectedFiles.forEach((file, index) => {
-				workData.append(`file${index}`, file);
+		axios
+			.post(baseURL, requestData)
+			.then((response) => {
+				console.log(response.data);
+			})
+			.catch((error) => {
+				console.error("エラー", error);
 			});
-
-			const response = await axios.post("/api/postwork", workData);
-			console.log("サーバーレスポンス:", response.data);
-		} catch (error) {
-			console.error("エラー:", error);
-		}
 	};
 
 	return (

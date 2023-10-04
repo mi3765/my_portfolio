@@ -55,12 +55,12 @@ const Home = () => {
 					post work
 				</Link>
 			</div>
-			<div style={container} className="text-center">
+			{/* <div style={container} className="text-center">
 				<Link href="pages/about" className="text-center text-6xl mb-5">
 					about
 				</Link>
 				<About />
-			</div>
+			</div> */}
 			<div className="text-center">
 				<Link href="pages/work" className="text-center text-6xl mb-5">
 					Work
